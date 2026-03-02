@@ -1,0 +1,43 @@
+package model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import java.util.Date;
+
+@Entity
+@Table(name = "Posts")
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class Post extends BaseModel {
+
+    @Column(nullable = false)
+    private String postTitle;
+
+    @Column(nullable = false)
+    private String postContent;
+
+    @Column(nullable = false)
+    private String postUrl;
+
+    @Column(nullable = false)
+    private boolean isActive;
+
+    @Column(nullable = false)
+    private int viewCount;
+
+    @Column(nullable = false)
+    private Date publishedAt;
+
+    @Column(nullable = false)
+    private Date createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoryID", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Category category;
+
+}
