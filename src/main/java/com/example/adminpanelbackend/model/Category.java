@@ -1,4 +1,4 @@
-package model;
+package com.example.adminpanelbackend.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +18,7 @@ public class Category extends BaseModel {
     private String name;
 
     @Column(nullable = false)
-    private String categoriContext;
+    private String categoryContext;
 
     @Column(nullable = false)
     private boolean isActive;

@@ -1,4 +1,4 @@
-package model;
+package com.example.adminpanelbackend.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

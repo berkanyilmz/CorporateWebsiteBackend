@@ -1,4 +1,4 @@
-package model;
+package com.example.adminpanelbackend.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -35,7 +35,7 @@ public class Post extends BaseModel {
     private Date createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryID", nullable = false)
+    @JoinColumn(nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Category category;

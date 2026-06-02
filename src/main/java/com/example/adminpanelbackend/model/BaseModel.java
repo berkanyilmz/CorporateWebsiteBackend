@@ -1,4 +1,4 @@
-package model;
+package com.example.adminpanelbackend.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

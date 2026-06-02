@@ -1,4 +1,4 @@
-package model;
+package com.example.adminpanelbackend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,7 +32,7 @@ public class Products extends BaseModel {
     private boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryID", nullable = false)
+    @JoinColumn(nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Category category;
