@@ -26,5 +26,4 @@ public class Category extends BaseModel {
     @Column(nullable = true)
     private int parentID;
 
-
 }

@@ -1,14 +1,14 @@
-package com.example.adminpanelbackend.model;
+package com.example.adminpanelbackend.model.Page;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.example.adminpanelbackend.model.BaseModel;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Pages")
@@ -36,10 +36,35 @@ public class Page extends BaseModel {
     private String metaDescription;
 
     @Column(nullable = false)
+    private boolean isRoot;
+
+    @Column(nullable = false)
     private boolean isActive;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(nullable = false)
     private Date createdAt;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(nullable = false)
+    private Date updatedDate;
+
+    // SEO
+    @Column(nullable = true)
+    private String seoTitle;
+
+    @Column(nullable = true)
+    private String seoDescription;
+
+    @Column(nullable = true)
+    private String seoKeywords;
+
+    //Parent Page
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Page parentPage;
+
+    @OneToMany
+    private List<Page> childPages;
 
 }
