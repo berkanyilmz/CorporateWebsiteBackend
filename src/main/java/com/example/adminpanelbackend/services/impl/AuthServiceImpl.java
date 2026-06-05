@@ -1,8 +1,8 @@
 package com.example.adminpanelbackend.services.impl;
 
-import com.example.adminpanelbackend.jwt.AuthRequest;
-import com.example.adminpanelbackend.jwt.AuthResponse;
-import com.example.adminpanelbackend.model.UserModels.User;
+import com.example.adminpanelbackend.dto.Auth.RegisterResponseDto;
+import com.example.adminpanelbackend.dto.User.UserRegisterDto;
+import com.example.adminpanelbackend.model.User.User;
 import com.example.adminpanelbackend.repository.IUserRepository;
 import com.example.adminpanelbackend.services.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,25 +24,25 @@ public class AuthServiceImpl implements IAuthService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public AuthResponse register(AuthRequest authRequest) {
-        if (userRepository.existsByUserEmail(authRequest.getUserEmail())) {
-            return new AuthResponse(false, "Bu E-mail Daha Önce Alınmış");
+    public RegisterResponseDto register(UserRegisterDto userRegisterDto) {
+        if (userRepository.existsByUserEmail(userRegisterDto.getUserEmail())) {
+            return new RegisterResponseDto(false, "This email is already registered.");
         }
         User user = new User();
         LocalDateTime localDateTime = LocalDateTime.now();
 
-        user.setUserFirstName(authRequest.getUserFirstName());
-        user.setUserLastName(authRequest.getUserLastName());
-        user.setUserEmail(authRequest.getUserEmail());
-        user.setPasswordHash(passwordEncoder.encode(authRequest.getPassword()));
+        user.setUserFirstName(userRegisterDto.getUserFirstName());
+        user.setUserLastName(userRegisterDto.getUserLastName());
+        user.setUserEmail(userRegisterDto.getUserEmail());
+        user.setPasswordHash(passwordEncoder.encode(userRegisterDto.getPassword()));
         user.setCreatedDate(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
         user.setDeleted(false);
 
         User savedUser = userRepository.save(user);
 
         if (savedUser.getId() != null)
-            return new AuthResponse(true, "Kayıt Başarılı");
+            return new RegisterResponseDto(true, "Registration successful.");
         else
-            return new AuthResponse(false, "Kayıt Başarısız");
+            return new RegisterResponseDto(false, "Registration failed.");
     }
 }

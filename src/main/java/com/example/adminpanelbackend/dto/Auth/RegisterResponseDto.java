@@ -1,15 +1,15 @@
-package com.example.adminpanelbackend.jwt;
+package com.example.adminpanelbackend.dto.Auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
+@NoArgsConstructor
+public class RegisterResponseDto {
 
-    private Boolean isSuccess;
+    private boolean success;
 
     private String message;
 

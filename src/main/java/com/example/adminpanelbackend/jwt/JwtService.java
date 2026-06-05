@@ -3,12 +3,13 @@ package com.example.adminpanelbackend.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,16 +18,17 @@ import java.util.function.Function;
 @Component
 public class JwtService {
 
-    private static final String SECRET_KEY = "KBpPOcSJ88uryIFZ9c0NDc3AaWkyz49Yhgzl5uNU8no=";
+    @Value("${jwt.secretKey}")
+    private String secretKey;
 
     public String generateToken(UserDetails userDetails) {
-        Map<String, String> claimsMap = new HashMap<>();
+        Map<String, Object> claimsMap = new HashMap<>();
         claimsMap.put("role", "ADMIN");
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .setClaims(claimsMap)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 7200))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .addClaims(claimsMap)
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
 
@@ -41,17 +43,18 @@ public class JwtService {
         return claimsTFunction.apply(claims);
     }
 
-    public String getUserNameByToken(String token) {
-        return exportToken(token, Claims::getSubject);
-    }
+//    public String getUserNameByToken(String token) {
+//        return exportToken(token, Claims::getSubject);
+//    }
 
     public boolean isTokenExpired(String token) {
         Date expiredDate = exportToken(token, Claims::getExpiration);
-        return new Date().before((expiredDate));
+        return expiredDate.before(new Date());
     }
 
     public SecretKey getKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
 }

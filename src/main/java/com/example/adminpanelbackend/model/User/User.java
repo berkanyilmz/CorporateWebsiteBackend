@@ -1,12 +1,12 @@
-package com.example.adminpanelbackend.model.UserModels;
+package com.example.adminpanelbackend.model.User;
 
 import com.example.adminpanelbackend.model.BaseModel;
 import com.example.adminpanelbackend.model.Regions.Country;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +36,7 @@ public class User extends BaseModel implements UserDetails {
     private String userPhoneNumber;
 
     @Column(nullable = false, unique = true)
+    @Email
     private String userEmail;
 
     @Column
@@ -57,12 +58,12 @@ public class User extends BaseModel implements UserDetails {
     }
 
     @Override
-    public @Nullable String getPassword() {
-        return "";
+    public String getPassword() {
+        return this.passwordHash;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.userEmail;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.adminpanelbackend.config;
 
-import com.example.adminpanelbackend.model.UserModels.User;
+import com.example.adminpanelbackend.model.User.User;
 import com.example.adminpanelbackend.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,16 +26,8 @@ public class AppConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                Optional<User> userOptional = userRepository.findByUsername(username);
-                if (userOptional.isPresent()) {
-                    return userOptional.get();
-                }
-                return null;
-            }
-        };
+        return username -> userRepository.findByUserEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
     @Bean

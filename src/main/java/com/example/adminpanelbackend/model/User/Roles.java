@@ -1,4 +1,4 @@
-package com.example.adminpanelbackend.model.UserModels;
+package com.example.adminpanelbackend.model.User;
 
 
 import com.example.adminpanelbackend.model.BaseModel;

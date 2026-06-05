@@ -1,14 +1,16 @@
 package com.example.adminpanelbackend.controller;
 
-import com.example.adminpanelbackend.dto.User.DtoUser;
-import com.example.adminpanelbackend.dto.User.LoginRequest;
-import com.example.adminpanelbackend.jwt.AuthRequest;
-import com.example.adminpanelbackend.jwt.AuthResponse;
+import com.example.adminpanelbackend.dto.Auth.RegisterResponseDto;
+import com.example.adminpanelbackend.dto.User.UserRegisterDto;
+import com.example.adminpanelbackend.dto.Auth.AuthRequest;
+import com.example.adminpanelbackend.dto.Auth.AuthResponse;
+import com.example.adminpanelbackend.jwt.RefreshTokenRequest;
 
 public interface IRestAuthController {
 
-    public AuthResponse register(AuthRequest authRequest);
+    public RegisterResponseDto register(UserRegisterDto userRegisterDto);
 
-    public AuthResponse login(LoginRequest loginRequest);
+    public AuthResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
+
 
 }

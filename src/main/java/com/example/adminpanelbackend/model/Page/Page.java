@@ -64,7 +64,7 @@ public class Page extends BaseModel {
     @JoinColumn(name = "parent_id")
     private Page parentPage;
 
-    @OneToMany
+    @OneToMany(mappedBy = "parentPage", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Page> childPages;
 
 }
