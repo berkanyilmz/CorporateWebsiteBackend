@@ -8,6 +8,7 @@ import com.example.adminpanelbackend.model.User.User;
 import com.example.adminpanelbackend.services.IRefreshTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +56,17 @@ public class CustomJsonLoginFilter extends UsernamePasswordAuthenticationFilter 
         // getPrincipal() nesnesini kendi User entity'mize cast ediyoruz
         UserDetails userDetails = (UserDetails) authResult.getPrincipal();
         String accessToken = jwtService.generateToken(userDetails);
+
         RefreshToken refreshToken = refreshTokenService.createRefreshToken((User) authResult.getPrincipal());
         String refreshTokenObj = refreshToken.getRefreshToken();
+
+        response.addCookie(jwtService.createRefreshTokenCookie(refreshTokenObj));
 
         // JSON Yanıtı
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        AuthResponse authResponse = new AuthResponse(accessToken, refreshTokenObj);
+        AuthResponse authResponse = new AuthResponse(accessToken);
         String jsonStr = new ObjectMapper().writeValueAsString(authResponse);
 
         response.getWriter().write(jsonStr);

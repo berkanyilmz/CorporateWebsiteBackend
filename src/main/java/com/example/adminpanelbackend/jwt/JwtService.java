@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,9 @@ public class JwtService {
 
     @Value("${jwt.secretKey}")
     private String secretKey;
+
+    @Value("${jwt.cookie.secure:false}")
+    private boolean cookieSecure;
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claimsMap = new HashMap<>();
@@ -43,9 +47,15 @@ public class JwtService {
         return claimsTFunction.apply(claims);
     }
 
-//    public String getUserNameByToken(String token) {
-//        return exportToken(token, Claims::getSubject);
-//    }
+    public Cookie createRefreshTokenCookie(String refreshToken) {
+        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(cookieSecure);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60);
+
+        return refreshTokenCookie;
+    }
 
     public boolean isTokenExpired(String token) {
         Date expiredDate = exportToken(token, Claims::getExpiration);

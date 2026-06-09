@@ -1,8 +1,5 @@
 package com.example.adminpanelbackend.services.impl;
 
-import com.example.adminpanelbackend.dto.Auth.AuthResponse;
-import com.example.adminpanelbackend.jwt.JwtService;
-import com.example.adminpanelbackend.jwt.RefreshTokenRequest;
 import com.example.adminpanelbackend.model.JWT.RefreshToken;
 import com.example.adminpanelbackend.model.User.User;
 import com.example.adminpanelbackend.repository.IRefreshTokenRepository;
@@ -20,41 +17,35 @@ public class RefreshTokenServiceImpl implements IRefreshTokenService {
     @Autowired
     private IRefreshTokenRepository refreshTokenRepository;
 
-    @Autowired
-    private JwtService jwtService;
-
     public boolean isTokenExpired(Date expireDate) {
         return expireDate.before(new Date());
     }
 
+    @Override
     public RefreshToken createRefreshToken(User user) {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setRefreshToken(UUID.randomUUID().toString());
-        refreshToken.setExpireDate(new Date((System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))); // a week
+        refreshToken.setExpireDate(new Date((System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7))); // a week
         refreshToken.setUser(user);
-
-        return  refreshToken;
+        return refreshTokenRepository.save(refreshToken);
     }
 
     @Override
-    public AuthResponse refreshToken(RefreshTokenRequest refreshToken) {
-        Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken.getRefreshToken());
+    public RefreshToken rotateRefreshToken(String refreshTokenValue) {
+        Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByRefreshToken(refreshTokenValue);
 
         if (optionalRefreshToken.isEmpty()) {
-            throw new RuntimeException("Refresh Token Not Found: " + refreshToken.getRefreshToken());
+            throw new RuntimeException("Refresh Token Not Found: " + refreshTokenValue);
         }
 
-        RefreshToken refreshTokenOptional = optionalRefreshToken.get();
+        RefreshToken oldToken = optionalRefreshToken.get();
 
-        if (isTokenExpired(refreshTokenOptional.getExpireDate())) {
-            refreshTokenRepository.delete(refreshTokenOptional);
-            throw new RuntimeException("Refresh Token Expired: " + refreshToken.getRefreshToken());
+        if (isTokenExpired(oldToken.getExpireDate())) {
+            refreshTokenRepository.delete(oldToken);
+            throw new RuntimeException("Refresh Token Expired: " + refreshTokenValue);
         }
 
-        String accessToken = jwtService.generateToken(refreshTokenOptional.getUser());
-
-        refreshTokenRepository.delete(refreshTokenOptional);
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(createRefreshToken(refreshTokenOptional.getUser()));
-        return new AuthResponse(accessToken, savedRefreshToken.getRefreshToken());
+        refreshTokenRepository.delete(oldToken);
+        return createRefreshToken(oldToken.getUser());
     }
 }
