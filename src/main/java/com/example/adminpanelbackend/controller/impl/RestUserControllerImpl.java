@@ -4,6 +4,8 @@ import com.example.adminpanelbackend.controller.IRestUserController;
 import com.example.adminpanelbackend.dto.User.UserDto;
 import com.example.adminpanelbackend.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,5 +23,11 @@ public class RestUserControllerImpl implements IRestUserController {
     @Override
     public List<UserDto> getUsers() {
         return userService.getUsers();
+    }
+
+    @GetMapping("/me")
+    @Override
+    public ResponseEntity<UserDto> me(Authentication authentication) {
+        return userService.me(authentication);
     }
 }

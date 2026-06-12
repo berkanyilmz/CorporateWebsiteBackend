@@ -6,10 +6,14 @@ import com.example.adminpanelbackend.repository.IUserRepository;
 import com.example.adminpanelbackend.services.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.beans.BeanProperty;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,5 +35,19 @@ public class UserService implements IUserService {
             return userDtoList;
         }
         return null;
+    }
+
+    @Override
+    public ResponseEntity<UserDto> me(Authentication authentication) {
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        String userName = jwt.getSubject();
+        Optional<User> user = userRepository.findByUserEmail(userName);
+
+        if (!user.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(user.get(), userDto);
+        return ResponseEntity.ok(userDto);
     }
 }
