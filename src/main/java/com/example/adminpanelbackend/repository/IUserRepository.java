@@ -1,5 +1,6 @@
 package com.example.adminpanelbackend.repository;
 
+import com.example.adminpanelbackend.dto.User.UserDto;
 import com.example.adminpanelbackend.model.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

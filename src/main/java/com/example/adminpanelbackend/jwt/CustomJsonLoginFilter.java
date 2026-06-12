@@ -2,16 +2,13 @@ package com.example.adminpanelbackend.jwt;
 
 import com.example.adminpanelbackend.dto.Auth.AuthRequest;
 import com.example.adminpanelbackend.dto.Auth.AuthResponse;
-import com.example.adminpanelbackend.dto.User.LoginRequestDto;
 import com.example.adminpanelbackend.model.JWT.RefreshToken;
 import com.example.adminpanelbackend.model.User.User;
 import com.example.adminpanelbackend.services.IRefreshTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
