@@ -59,7 +59,7 @@ public class RestAuthControllerImpl implements IRestAuthController {
 
         RefreshToken newRefreshToken = refreshTokenService.rotateRefreshToken(refreshToken);
         String accessToken = jwtService.generateToken(newRefreshToken.getUser());
-        response.addCookie(jwtService.createRefreshTokenCookie(newRefreshToken.getRefreshToken()));
+        response.addCookie(jwtService.createRefreshTokenCookie(newRefreshToken.getRefreshToken()), 7 * 24 * 60 * 60);
 
         return new AuthResponse(accessToken);
     }

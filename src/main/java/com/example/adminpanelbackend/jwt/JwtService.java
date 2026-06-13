@@ -47,12 +47,12 @@ public class JwtService {
         return claimsTFunction.apply(claims);
     }
 
-    public Cookie createRefreshTokenCookie(String refreshToken) {
+    public Cookie createRefreshTokenCookie(String refreshToken, int setMaxAge) {
         Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(cookieSecure);
         refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60);
+        refreshTokenCookie.setMaxAge(setMaxAge);
 
         return refreshTokenCookie;
     }
