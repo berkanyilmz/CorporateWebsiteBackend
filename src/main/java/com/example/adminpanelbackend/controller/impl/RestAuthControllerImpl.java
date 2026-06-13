@@ -2,7 +2,6 @@ package com.example.adminpanelbackend.controller.impl;
 
 import com.example.adminpanelbackend.controller.IRestAuthController;
 import com.example.adminpanelbackend.dto.Auth.RegisterResponseDto;
-import com.example.adminpanelbackend.dto.User.UserDto;
 import com.example.adminpanelbackend.dto.User.UserRegisterDto;
 import com.example.adminpanelbackend.dto.Auth.AuthResponse;
 import com.example.adminpanelbackend.jwt.JwtService;
@@ -15,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,9 +57,15 @@ public class RestAuthControllerImpl implements IRestAuthController {
 
         RefreshToken newRefreshToken = refreshTokenService.rotateRefreshToken(refreshToken);
         String accessToken = jwtService.generateToken(newRefreshToken.getUser());
-        response.addCookie(jwtService.createRefreshTokenCookie(newRefreshToken.getRefreshToken()), 7 * 24 * 60 * 60);
+        response.addCookie(jwtService.createTokenCookie("refreshToken", newRefreshToken.getRefreshToken(), 7 * 24 * 60 * 60));
 
         return new AuthResponse(accessToken);
+    }
+
+    @PostMapping("/logout")
+    @Override
+    public ResponseEntity<Void> logout(HttpServletResponse response) {
+        return authService.logout(response);
     }
 
 }

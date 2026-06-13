@@ -47,8 +47,8 @@ public class JwtService {
         return claimsTFunction.apply(claims);
     }
 
-    public Cookie createRefreshTokenCookie(String refreshToken, int setMaxAge) {
-        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+    public Cookie createTokenCookie(String tokenName, String token, int setMaxAge) {
+        Cookie refreshTokenCookie = new Cookie(tokenName, token);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(cookieSecure);
         refreshTokenCookie.setPath("/");

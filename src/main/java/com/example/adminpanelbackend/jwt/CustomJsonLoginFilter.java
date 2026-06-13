@@ -57,7 +57,7 @@ public class CustomJsonLoginFilter extends UsernamePasswordAuthenticationFilter 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken((User) authResult.getPrincipal());
         String refreshTokenObj = refreshToken.getRefreshToken();
 
-        response.addCookie(jwtService.createRefreshTokenCookie(refreshTokenObj));
+        response.addCookie(jwtService.createTokenCookie("refreshToken", refreshTokenObj, 7 * 24 * 60 * 60));
 
         // JSON Yanıtı
         response.setContentType("application/json");

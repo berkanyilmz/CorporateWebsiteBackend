@@ -15,4 +15,6 @@ public interface IRestAuthController {
 
     AuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response);
 
+    ResponseEntity<Void> logout(HttpServletResponse response);
+
 }
