@@ -2,10 +2,7 @@ package com.example.adminpanelbackend.model.JWT;
 
 import com.example.adminpanelbackend.model.BaseModel;
 import com.example.adminpanelbackend.model.User.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +22,8 @@ public class RefreshToken extends BaseModel {
     @Column
     private Date expireDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 }

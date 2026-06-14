@@ -23,7 +23,7 @@ public class UserService implements IUserService {
     IUserRepository userRepository;
 
     @Override
-    public List<UserDto> getUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() {
         List<User> users = userRepository.findAll();
 
         if (users != null) {
@@ -32,9 +32,9 @@ public class UserService implements IUserService {
                 BeanUtils.copyProperties(user, userDto);
                 return userDto;
             }).collect(Collectors.toList());
-            return userDtoList;
+            return ResponseEntity.ok(userDtoList);
         }
-        return null;
+        return ResponseEntity.notFound().build();
     }
 
     @Override

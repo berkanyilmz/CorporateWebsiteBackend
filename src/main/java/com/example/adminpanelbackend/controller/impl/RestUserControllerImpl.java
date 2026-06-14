@@ -21,7 +21,7 @@ public class RestUserControllerImpl implements IRestUserController {
 
     @GetMapping("/get-all")
     @Override
-    public List<UserDto> getUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() {
         return userService.getUsers();
     }
 

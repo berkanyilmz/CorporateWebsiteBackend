@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IRestUserController {
 
-    List<UserDto> getUsers();
+    ResponseEntity<List<UserDto>> getUsers();
 
     ResponseEntity<UserDto> me(Authentication authentication);
 
