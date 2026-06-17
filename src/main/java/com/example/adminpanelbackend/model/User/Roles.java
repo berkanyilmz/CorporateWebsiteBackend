@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Roles extends BaseModel {
 
-    @Column
+    @Column(unique = true)
     private String roleName;
 
     @Column

@@ -47,7 +47,7 @@ public class User extends BaseModel implements UserDetails {
     @Column
     private Date createdDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = true)
     private Roles roleID;
 

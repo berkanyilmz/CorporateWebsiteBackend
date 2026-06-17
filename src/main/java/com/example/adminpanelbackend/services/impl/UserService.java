@@ -1,6 +1,7 @@
 package com.example.adminpanelbackend.services.impl;
 
 import com.example.adminpanelbackend.dto.User.UserDto;
+import com.example.adminpanelbackend.dto.User.UserRegisterDto;
 import com.example.adminpanelbackend.model.User.User;
 import com.example.adminpanelbackend.repository.IUserRepository;
 import com.example.adminpanelbackend.services.IUserService;
@@ -49,5 +50,10 @@ public class UserService implements IUserService {
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(user.get(), userDto);
         return ResponseEntity.ok(userDto);
+    }
+
+    @Override
+    public ResponseEntity<Boolean> addUser(UserRegisterDto userRegisterDto) {
+        return null;
     }
 }

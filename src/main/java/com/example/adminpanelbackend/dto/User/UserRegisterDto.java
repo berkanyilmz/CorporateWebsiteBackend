@@ -1,5 +1,6 @@
 package com.example.adminpanelbackend.dto.User;
 
+import com.example.adminpanelbackend.model.User.Roles;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
