@@ -1,7 +1,7 @@
 package com.example.adminpanelbackend.services.impl;
 
 import com.example.adminpanelbackend.dto.User.UserDto;
-import com.example.adminpanelbackend.dto.User.UserRegisterDto;
+import com.example.adminpanelbackend.dto.User.UserDtoUI;
 import com.example.adminpanelbackend.model.User.User;
 import com.example.adminpanelbackend.repository.IUserRepository;
 import com.example.adminpanelbackend.services.IUserService;
@@ -12,13 +12,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import java.beans.BeanProperty;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements IUserService {
+public class UserServiceImpl implements IUserService {
 
     @Autowired
     IUserRepository userRepository;
@@ -53,7 +52,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public ResponseEntity<Boolean> addUser(UserRegisterDto userRegisterDto) {
-        return null;
+    public ResponseEntity<Boolean> insertUser(UserDtoUI userDtoUI) {
+        User user = new User();
+        BeanUtils.copyProperties(userDtoUI, user);
+        userRepository.save(user);
+        if (user.getId() != null)
+            return ResponseEntity.ok(true);
+        else
+            return ResponseEntity.badRequest().body(false);
     }
 }
