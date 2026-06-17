@@ -1,7 +1,7 @@
 package com.example.adminpanelbackend.services.impl;
 
 import com.example.adminpanelbackend.dto.Auth.RegisterResponseDto;
-import com.example.adminpanelbackend.dto.User.UserRegisterDto;
+import com.example.adminpanelbackend.dto.User.UserDtoUI;
 import com.example.adminpanelbackend.jwt.JwtService;
 import com.example.adminpanelbackend.model.User.User;
 import com.example.adminpanelbackend.repository.IUserRepository;
@@ -30,26 +30,26 @@ public class AuthServiceImpl implements IAuthService {
     private JwtService jwtService;
 
     @Override
-    public RegisterResponseDto register(UserRegisterDto userRegisterDto) {
-        if (userRepository.existsByUserEmail(userRegisterDto.getUserEmail())) {
-            return new RegisterResponseDto(false, "This email is already registered.");
+    public ResponseEntity<RegisterResponseDto> register(UserDtoUI userDtoUI) {
+        if (userRepository.existsByUserEmail(userDtoUI.getUserEmail())) {
+            return ResponseEntity.badRequest().body(new RegisterResponseDto(false, "This email is already registered."));
         }
         User user = new User();
         LocalDateTime localDateTime = LocalDateTime.now();
 
-        user.setUserFirstName(userRegisterDto.getUserFirstName());
-        user.setUserLastName(userRegisterDto.getUserLastName());
-        user.setUserEmail(userRegisterDto.getUserEmail());
-        user.setPasswordHash(passwordEncoder.encode(userRegisterDto.getPassword()));
+        user.setUserFirstName(userDtoUI.getUserFirstName());
+        user.setUserLastName(userDtoUI.getUserLastName());
+        user.setUserEmail(userDtoUI.getUserEmail());
+        user.setPasswordHash(passwordEncoder.encode(userDtoUI.getPassword()));
         user.setCreatedDate(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
         user.setDeleted(false);
 
         User savedUser = userRepository.save(user);
 
         if (savedUser.getId() != null)
-            return new RegisterResponseDto(true, "Registration successful.");
+            return ResponseEntity.ok(new RegisterResponseDto(true, "Registration successful."));
         else
-            return new RegisterResponseDto(false, "Registration failed.");
+            return ResponseEntity.badRequest().body(new RegisterResponseDto(false, "Registration failed."));
     }
 
     @Override

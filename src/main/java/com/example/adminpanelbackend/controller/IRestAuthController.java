@@ -2,7 +2,7 @@ package com.example.adminpanelbackend.controller;
 
 import com.example.adminpanelbackend.dto.Auth.RegisterResponseDto;
 import com.example.adminpanelbackend.dto.User.UserDto;
-import com.example.adminpanelbackend.dto.User.UserRegisterDto;
+import com.example.adminpanelbackend.dto.User.UserDtoUI;
 import com.example.adminpanelbackend.dto.Auth.AuthResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,9 +11,9 @@ import org.springframework.security.core.Authentication;
 
 public interface IRestAuthController {
 
-    RegisterResponseDto register(UserRegisterDto userRegisterDto);
+    ResponseEntity<RegisterResponseDto> register(UserDtoUI userDtoUI);
 
-    AuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity<AuthResponse> refreshToken(HttpServletRequest request, HttpServletResponse response);
 
     ResponseEntity<Void> logout(HttpServletResponse response);
 

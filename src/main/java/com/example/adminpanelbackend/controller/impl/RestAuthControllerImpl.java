@@ -2,7 +2,7 @@ package com.example.adminpanelbackend.controller.impl;
 
 import com.example.adminpanelbackend.controller.IRestAuthController;
 import com.example.adminpanelbackend.dto.Auth.RegisterResponseDto;
-import com.example.adminpanelbackend.dto.User.UserRegisterDto;
+import com.example.adminpanelbackend.dto.User.UserDtoUI;
 import com.example.adminpanelbackend.dto.Auth.AuthResponse;
 import com.example.adminpanelbackend.jwt.JwtService;
 import com.example.adminpanelbackend.model.JWT.RefreshToken;
@@ -34,13 +34,13 @@ public class RestAuthControllerImpl implements IRestAuthController {
 
     @PostMapping("/register")
     @Override
-    public RegisterResponseDto register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        return authService.register(userRegisterDto);
+    public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody UserDtoUI userDtoUI) {
+        return authService.register(userDtoUI);
     }
 
     @PostMapping("/refresh")
     @Override
-    public AuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<AuthResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = null;
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -59,7 +59,7 @@ public class RestAuthControllerImpl implements IRestAuthController {
         String accessToken = jwtService.generateToken(newRefreshToken.getUser());
         response.addCookie(jwtService.createTokenCookie("refreshToken", newRefreshToken.getRefreshToken(), 7 * 24 * 60 * 60));
 
-        return new AuthResponse(accessToken);
+        return ResponseEntity.ok(new AuthResponse(accessToken));
     }
 
     @PostMapping("/logout")
