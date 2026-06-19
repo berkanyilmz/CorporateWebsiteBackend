@@ -13,4 +13,6 @@ public interface IRoleService {
 
     ResponseEntity<Long> findIdByRoleName(String roleName);
 
+    ResponseEntity<Boolean> deleteRoleById(Long id);
+
 }

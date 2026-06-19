@@ -6,8 +6,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -19,6 +21,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class User extends BaseModel implements UserDetails {
 
     @Column
@@ -53,7 +56,13 @@ public class User extends BaseModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        if (roleID == null || roleID.getRoleName() == null || roleID.getRoleName().isBlank()) {
+            return List.of();
+        }
+        String roleName = roleID.getRoleName().startsWith("ROLE_")
+                ? roleID.getRoleName()
+                : "ROLE_" + roleID.getRoleName();
+        return List.of(new SimpleGrantedAuthority(roleName));
     }
 
     @Override

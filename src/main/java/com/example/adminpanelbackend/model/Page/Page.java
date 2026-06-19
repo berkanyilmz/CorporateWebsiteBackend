@@ -4,6 +4,7 @@ import com.example.adminpanelbackend.model.BaseModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Page extends BaseModel {
 
     @Column(nullable = false)
@@ -48,6 +50,9 @@ public class Page extends BaseModel {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(nullable = false)
     private Date updatedDate;
+
+    @Column(nullable = false)
+    private boolean deleted = false;
 
     // SEO
     @Column(nullable = true)

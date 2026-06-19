@@ -5,6 +5,7 @@ import com.example.adminpanelbackend.dto.User.RoleDto;
 import com.example.adminpanelbackend.services.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,24 +18,28 @@ public class RestRoleControllerImpl implements IRestRoleController {
     private IRoleService roleService;
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity<List<RoleDto>> getAllRoles() {
         return roleService.getAllRoles();
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<Boolean> deleteRoleById() {
-        return null;
+    public ResponseEntity<Boolean> deleteRoleById(@PathVariable(value = "id") Long id) {
+        return roleService.deleteRoleById(id);
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity<Boolean> addRole(@RequestBody RoleDto roleDto) {
         return roleService.addRole(roleDto);
     }
 
     @GetMapping("/get/{roleName}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity<Long> findIdByRoleName(@PathVariable(value = "roleName") String roleName) {
         return roleService.findIdByRoleName(roleName);

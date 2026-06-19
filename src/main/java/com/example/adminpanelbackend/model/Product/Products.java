@@ -35,6 +35,9 @@ public class Products extends BaseModel {
     @Column(nullable = false)
     private Date createdAt;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> productImages;
 

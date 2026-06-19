@@ -5,6 +5,7 @@ import com.example.adminpanelbackend.model.Product.Products;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Category extends BaseModel {
 
     @Column(nullable = false)
@@ -27,6 +29,9 @@ public class Category extends BaseModel {
 
     @Column(nullable = false)
     private boolean isActive;
+
+    @Column(nullable = false)
+    private boolean deleted = false;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Products> products;

@@ -35,6 +35,9 @@ public class Post extends BaseModel {
     @Column(nullable = false)
     private Date createdAt;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     @ToString.Exclude

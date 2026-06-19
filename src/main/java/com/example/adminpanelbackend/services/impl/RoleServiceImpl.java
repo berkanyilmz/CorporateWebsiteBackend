@@ -56,4 +56,13 @@ public class RoleServiceImpl implements IRoleService {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Override
+    public ResponseEntity<Boolean> deleteRoleById(Long id) {
+        if (!roleRepository.existsById(id)) {
+            return ResponseEntity.badRequest().body(false);
+        }
+        roleRepository.deleteById(id);
+        return ResponseEntity.ok(true);
+    }
 }

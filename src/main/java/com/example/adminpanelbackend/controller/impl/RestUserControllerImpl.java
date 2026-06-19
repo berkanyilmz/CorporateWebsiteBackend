@@ -4,10 +4,11 @@ import com.example.adminpanelbackend.controller.IRestUserController;
 import com.example.adminpanelbackend.dto.User.UserDto;
 import com.example.adminpanelbackend.dto.User.UserDtoUI;
 import com.example.adminpanelbackend.services.IUserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ public class RestUserControllerImpl implements IRestUserController {
     private IUserService userService;
 
     @GetMapping("/get-all")
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity<List<UserDto>> getUsers() {
         return userService.getUsers();
@@ -36,6 +38,7 @@ public class RestUserControllerImpl implements IRestUserController {
     }
 
     @PostMapping("/insert")
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity<Boolean> insertUser(@Valid @RequestBody UserDtoUI userDto) {
         return userService.insertUser(userDto);
