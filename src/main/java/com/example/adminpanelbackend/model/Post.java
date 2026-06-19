@@ -1,5 +1,6 @@
 package com.example.adminpanelbackend.model;
 
+import com.example.adminpanelbackend.model.Category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
