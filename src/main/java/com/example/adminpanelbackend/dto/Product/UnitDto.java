@@ -1,0 +1,17 @@
+package com.example.adminpanelbackend.dto.Product;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UnitDto {
+
+    private Long id;
+
+    private String unitName;
+
+    private boolean deleted;
+}
