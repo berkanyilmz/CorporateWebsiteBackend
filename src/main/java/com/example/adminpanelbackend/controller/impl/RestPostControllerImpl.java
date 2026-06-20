@@ -20,14 +20,12 @@ public class RestPostControllerImpl implements IRestPostController {
     private IPostService postService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<PostDto>> getAllPosts() {
         return postService.getAllPosts();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<PostDto> getPostById(@PathVariable(value = "id") Long id) {
         return postService.getPostById(id);

@@ -20,14 +20,12 @@ public class RestCategoryControllerImpl implements IRestCategoryController {
     private ICategoryService categoryService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<CategoryDto>> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable(value = "id") Long id) {
         return categoryService.getCategoryById(id);

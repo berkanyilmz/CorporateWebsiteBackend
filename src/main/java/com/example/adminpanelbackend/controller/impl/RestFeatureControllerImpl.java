@@ -20,14 +20,12 @@ public class RestFeatureControllerImpl implements IRestFeatureController {
     private IFeatureService featureService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<FeatureDto>> getAllFeatures() {
         return featureService.getAllFeatures();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<FeatureDto> getFeatureById(@PathVariable(value = "id") Long id) {
         return featureService.getFeatureById(id);

@@ -34,14 +34,12 @@ public class RestProductControllerImpl implements IRestProductController {
     private IProductImageService productImageService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<ProductDto> getProductById(@PathVariable(value = "id") Long id) {
         return productService.getProductById(id);
@@ -76,7 +74,6 @@ public class RestProductControllerImpl implements IRestProductController {
     }
 
     @GetMapping("/{id}/features")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<ProductFeatureDto>> getFeaturesByProductId(@PathVariable(value = "id") Long id) {
         return productFeatureService.getFeaturesByProductId(id);
@@ -104,7 +101,6 @@ public class RestProductControllerImpl implements IRestProductController {
     }
 
     @GetMapping("/{id}/images")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<ProductImageDto>> getImagesByProductId(@PathVariable(value = "id") Long id) {
         return productImageService.getImagesByProductId(id);

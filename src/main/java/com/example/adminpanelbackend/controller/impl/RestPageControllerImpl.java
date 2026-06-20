@@ -20,14 +20,12 @@ public class RestPageControllerImpl implements IRestPageController {
     private IPageService pageService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<PageDto>> getAllPages() {
         return pageService.getAllPages();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<PageDto> getPageById(@PathVariable(value = "id") Long id) {
         return pageService.getPageById(id);

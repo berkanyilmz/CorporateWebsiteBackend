@@ -41,7 +41,14 @@ public class SecurityConfig {
     private String secretKey;
 
     public static final String[] SWAGGER = {"/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html"};
-    public static final String[] PUBLIC = {"/auth/**", "/authenticate", "/register", "/login"};
+    public static final String[] PUBLIC = {
+            "/auth/**", "/authenticate", "/register", "/login",
+            "/pages", "/pages/all", "/pages/get/**",
+            "/categories/all", "/categories/get/**",
+            "/products/all", "/products/get/**", "/products/*/features", "/products/*/images",
+            "/posts/all", "/posts/get/**",
+            "/features/all", "/features/get/**"
+    };
 
     @Autowired
     private AuthenticationProvider authenticationProvider;
@@ -93,7 +100,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:3001"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
