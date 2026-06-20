@@ -20,42 +20,42 @@ public class RestPostControllerImpl implements IRestPostController {
     private IPostService postService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<PostDto>> getAllPosts() {
         return postService.getAllPosts();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<PostDto> getPostById(@PathVariable(value = "id") Long id) {
         return postService.getPostById(id);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addPost(@Valid @RequestBody PostDtoUI dto) {
         return postService.createPost(dto);
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updatePost(@PathVariable(value = "id") Long id, @Valid @RequestBody PostDtoUI dto) {
         return postService.updatePost(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> softDeletePost(@PathVariable(value = "id") Long id) {
         return postService.softDeletePost(id);
     }
 
     @DeleteMapping("/delete/{id}/hard")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> hardDeletePost(@PathVariable(value = "id") Long id) {
         return postService.hardDeletePost(id);

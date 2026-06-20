@@ -3,7 +3,9 @@ package com.example.adminpanelbackend.services.impl;
 import com.example.adminpanelbackend.dto.Auth.RegisterResponseDto;
 import com.example.adminpanelbackend.dto.User.UserDtoUI;
 import com.example.adminpanelbackend.jwt.JwtService;
+import com.example.adminpanelbackend.model.User.Roles;
 import com.example.adminpanelbackend.model.User.User;
+import com.example.adminpanelbackend.repository.IRoleRepository;
 import com.example.adminpanelbackend.repository.IUserRepository;
 import com.example.adminpanelbackend.services.IAuthService;
 import jakarta.servlet.http.Cookie;
@@ -25,6 +27,9 @@ public class AuthServiceImpl implements IAuthService {
     private IUserRepository userRepository;
 
     @Autowired
+    private IRoleRepository roleRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private JwtService jwtService;
@@ -34,6 +39,12 @@ public class AuthServiceImpl implements IAuthService {
         if (userRepository.existsByUserEmail(userDtoUI.getUserEmail())) {
             return ResponseEntity.badRequest().body(new RegisterResponseDto(false, "This email is already registered."));
         }
+
+        Roles role = roleRepository.findById(userDtoUI.getRoleId()).orElse(null);
+        if (role == null) {
+            return ResponseEntity.badRequest().body(new RegisterResponseDto(false, "Selected role not found."));
+        }
+
         User user = new User();
         LocalDateTime localDateTime = LocalDateTime.now();
 
@@ -43,6 +54,7 @@ public class AuthServiceImpl implements IAuthService {
         user.setPasswordHash(passwordEncoder.encode(userDtoUI.getPassword()));
         user.setCreatedDate(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
         user.setDeleted(false);
+        user.setRoleID(role);
 
         User savedUser = userRepository.save(user);
 

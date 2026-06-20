@@ -25,7 +25,7 @@ public class RestUserControllerImpl implements IRestUserController {
     private IUserService userService;
 
     @GetMapping("/get-all")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<List<UserDto>> getUsers() {
         return userService.getUsers();
@@ -38,7 +38,7 @@ public class RestUserControllerImpl implements IRestUserController {
     }
 
     @PostMapping("/insert")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> insertUser(@Valid @RequestBody UserDtoUI userDto) {
         return userService.insertUser(userDto);

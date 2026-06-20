@@ -20,42 +20,42 @@ public class RestCategoryControllerImpl implements IRestCategoryController {
     private ICategoryService categoryService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<CategoryDto>> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable(value = "id") Long id) {
         return categoryService.getCategoryById(id);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addCategory(@Valid @RequestBody CategoryDtoUI dto) {
         return categoryService.createCategory(dto);
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updateCategory(@PathVariable(value = "id") Long id, @Valid @RequestBody CategoryDtoUI dto) {
         return categoryService.updateCategory(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> softDeleteCategory(@PathVariable(value = "id") Long id) {
         return categoryService.softDeleteCategory(id);
     }
 
     @DeleteMapping("/delete/{id}/hard")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> hardDeleteCategory(@PathVariable(value = "id") Long id) {
         return categoryService.hardDeleteCategory(id);

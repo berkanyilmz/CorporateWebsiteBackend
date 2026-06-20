@@ -20,42 +20,42 @@ public class RestUnitControllerImpl implements IRestUnitController {
     private IUnitService unitService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<UnitDto>> getAllUnits() {
         return unitService.getAllUnits();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<UnitDto> getUnitById(@PathVariable(value = "id") Long id) {
         return unitService.getUnitById(id);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addUnit(@Valid @RequestBody UnitDtoUI dto) {
         return unitService.createUnit(dto);
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updateUnit(@PathVariable(value = "id") Long id, @Valid @RequestBody UnitDtoUI dto) {
         return unitService.updateUnit(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> softDeleteUnit(@PathVariable(value = "id") Long id) {
         return unitService.softDeleteUnit(id);
     }
 
     @DeleteMapping("/delete/{id}/hard")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> hardDeleteUnit(@PathVariable(value = "id") Long id) {
         return unitService.hardDeleteUnit(id);

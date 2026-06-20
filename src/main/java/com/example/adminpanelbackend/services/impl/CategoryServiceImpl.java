@@ -59,7 +59,6 @@ public class CategoryServiceImpl implements ICategoryService {
         }
 
         Category category = new Category();
-        category.setName(dto.getName());
         category.setCategoryName(dto.getCategoryName());
         category.setSlug(slug);
         category.setActive(dto.getActive());
@@ -88,7 +87,6 @@ public class CategoryServiceImpl implements ICategoryService {
             category.setSlug(slug);
         }
 
-        category.setName(dto.getName());
         category.setCategoryName(dto.getCategoryName());
         category.setActive(dto.getActive());
         categoryRepository.save(category);

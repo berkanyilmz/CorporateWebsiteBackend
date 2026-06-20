@@ -18,9 +18,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Category extends BaseModel {
 
-    @Column(nullable = false)
-    private String name;
-
     @Column(nullable = false, length = 100, unique = true)
     private String categoryName;
 

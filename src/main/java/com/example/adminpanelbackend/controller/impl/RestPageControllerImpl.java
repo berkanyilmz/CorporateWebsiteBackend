@@ -20,42 +20,42 @@ public class RestPageControllerImpl implements IRestPageController {
     private IPageService pageService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<PageDto>> getAllPages() {
         return pageService.getAllPages();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<PageDto> getPageById(@PathVariable(value = "id") Long id) {
         return pageService.getPageById(id);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addPage(@Valid @RequestBody PageDtoUI dto) {
         return pageService.createPage(dto);
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updatePage(@PathVariable(value = "id") Long id, @Valid @RequestBody PageDtoUI dto) {
         return pageService.updatePage(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> softDeletePage(@PathVariable(value = "id") Long id) {
         return pageService.softDeletePage(id);
     }
 
     @DeleteMapping("/delete/{id}/hard")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> hardDeletePage(@PathVariable(value = "id") Long id) {
         return pageService.hardDeletePage(id);

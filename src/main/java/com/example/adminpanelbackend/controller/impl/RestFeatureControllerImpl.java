@@ -20,42 +20,42 @@ public class RestFeatureControllerImpl implements IRestFeatureController {
     private IFeatureService featureService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<FeatureDto>> getAllFeatures() {
         return featureService.getAllFeatures();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<FeatureDto> getFeatureById(@PathVariable(value = "id") Long id) {
         return featureService.getFeatureById(id);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addFeature(@Valid @RequestBody FeatureDtoUI dto) {
         return featureService.createFeature(dto);
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updateFeature(@PathVariable(value = "id") Long id, @Valid @RequestBody FeatureDtoUI dto) {
         return featureService.updateFeature(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> softDeleteFeature(@PathVariable(value = "id") Long id) {
         return featureService.softDeleteFeature(id);
     }
 
     @DeleteMapping("/delete/{id}/hard")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> hardDeleteFeature(@PathVariable(value = "id") Long id) {
         return featureService.hardDeleteFeature(id);

@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryDtoUI {
 
-    @NotBlank(message = "Name cannot be empty")
-    private String name;
-
     @NotBlank(message = "Category name cannot be empty")
     @Size(max = 100, message = "Category name must be at most 100 characters")
     private String categoryName;

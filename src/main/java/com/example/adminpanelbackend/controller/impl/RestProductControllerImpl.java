@@ -34,98 +34,98 @@ public class RestProductControllerImpl implements IRestProductController {
     private IProductImageService productImageService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<ProductDto> getProductById(@PathVariable(value = "id") Long id) {
         return productService.getProductById(id);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addProduct(@Valid @RequestBody ProductDtoUI dto) {
         return productService.createProduct(dto);
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updateProduct(@PathVariable(value = "id") Long id, @Valid @RequestBody ProductDtoUI dto) {
         return productService.updateProduct(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> softDeleteProduct(@PathVariable(value = "id") Long id) {
         return productService.softDeleteProduct(id);
     }
 
     @DeleteMapping("/delete/{id}/hard")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> hardDeleteProduct(@PathVariable(value = "id") Long id) {
         return productService.hardDeleteProduct(id);
     }
 
     @GetMapping("/{id}/features")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<ProductFeatureDto>> getFeaturesByProductId(@PathVariable(value = "id") Long id) {
         return productFeatureService.getFeaturesByProductId(id);
     }
 
     @PostMapping("/{id}/features/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addFeatureToProduct(@PathVariable(value = "id") Long id, @Valid @RequestBody ProductFeatureDtoUI dto) {
         return productFeatureService.addFeatureToProduct(id, dto);
     }
 
     @PutMapping("/{id}/features/update/{featureId}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updateFeature(@PathVariable(value = "id") Long id, @PathVariable(value = "featureId") Long featureId, @Valid @RequestBody ProductFeatureDtoUI dto) {
         return productFeatureService.updateFeature(id, featureId, dto);
     }
 
     @DeleteMapping("/{id}/features/delete/{featureId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> deleteFeature(@PathVariable(value = "id") Long id, @PathVariable(value = "featureId") Long featureId) {
         return productFeatureService.deleteFeature(id, featureId);
     }
 
     @GetMapping("/{id}/images")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<ProductImageDto>> getImagesByProductId(@PathVariable(value = "id") Long id) {
         return productImageService.getImagesByProductId(id);
     }
 
     @PostMapping(value = "/{id}/images/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addImageToProduct(@PathVariable(value = "id") Long id, @ModelAttribute ProductImageDtoUI dto, @RequestParam(value = "file", required = false) MultipartFile file) {
         return productImageService.addImageToProduct(id, dto, file);
     }
 
     @PutMapping(value = "/{id}/images/update/{imageId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updateImage(@PathVariable(value = "id") Long id, @PathVariable(value = "imageId") Long imageId, @ModelAttribute ProductImageDtoUI dto, @RequestParam(value = "file", required = false) MultipartFile file) {
         return productImageService.updateImage(id, imageId, dto, file);
     }
 
     @DeleteMapping("/{id}/images/delete/{imageId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> deleteImage(@PathVariable(value = "id") Long id, @PathVariable(value = "imageId") Long imageId) {
         return productImageService.deleteImage(id, imageId);

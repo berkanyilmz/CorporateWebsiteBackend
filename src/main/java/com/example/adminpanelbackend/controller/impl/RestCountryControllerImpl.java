@@ -20,42 +20,42 @@ public class RestCountryControllerImpl implements IRestCountryController {
     private ICountryService countryService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<List<CountryDto>> getAllCountries() {
         return countryService.getAllCountries();
     }
 
     @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor', 'Viewer')")
     @Override
     public ResponseEntity<CountryDto> getCountryById(@PathVariable(value = "id") Long id) {
         return countryService.getCountryById(id);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> addCountry(@Valid @RequestBody CountryDtoUI dto) {
         return countryService.createCountry(dto);
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
+    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<Boolean> updateCountry(@PathVariable(value = "id") Long id, @Valid @RequestBody CountryDtoUI dto) {
         return countryService.updateCountry(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> softDeleteCountry(@PathVariable(value = "id") Long id) {
         return countryService.softDeleteCountry(id);
     }
 
     @DeleteMapping("/delete/{id}/hard")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> hardDeleteCountry(@PathVariable(value = "id") Long id) {
         return countryService.hardDeleteCountry(id);

@@ -18,28 +18,28 @@ public class RestRoleControllerImpl implements IRestRoleController {
     private IRoleService roleService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<List<RoleDto>> getAllRoles() {
         return roleService.getAllRoles();
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> deleteRoleById(@PathVariable(value = "id") Long id) {
         return roleService.deleteRoleById(id);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Boolean> addRole(@RequestBody RoleDto roleDto) {
         return roleService.addRole(roleDto);
     }
 
     @GetMapping("/get/{roleName}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @Override
     public ResponseEntity<Long> findIdByRoleName(@PathVariable(value = "roleName") String roleName) {
         return roleService.findIdByRoleName(roleName);
