@@ -13,8 +13,4 @@ public interface IPageRepository extends JpaRepository<Page, Long> {
     Optional<Page> findByIdAndDeletedFalse(Long id);
 
     List<Page> findAllByDeletedFalse();
-
-    boolean existsByPageUrlAndDeletedFalse(String pageUrl);
-
-    boolean existsByPageUrlAndDeletedFalseAndIdNot(String pageUrl, Long id);
 }

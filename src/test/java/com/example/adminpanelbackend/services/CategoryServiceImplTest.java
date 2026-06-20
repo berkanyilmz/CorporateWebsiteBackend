@@ -28,7 +28,6 @@ class CategoryServiceImplTest {
     @Test
     void createCategory_shouldReturnTrue_whenCategoryNameIsUnique() {
         CategoryDtoUI dto = new CategoryDtoUI();
-        dto.setName("Electronics");
         dto.setCategoryName("Electronics");
         dto.setActive(true);
 
@@ -45,7 +44,6 @@ class CategoryServiceImplTest {
     @Test
     void createCategory_shouldReturnBadRequest_whenCategoryNameAlreadyExists() {
         CategoryDtoUI dto = new CategoryDtoUI();
-        dto.setName("Electronics");
         dto.setCategoryName("Electronics");
         dto.setActive(true);
 

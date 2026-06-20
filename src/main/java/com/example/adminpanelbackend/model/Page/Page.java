@@ -26,9 +26,6 @@ public class Page extends BaseModel {
     private byte pageOrder;
 
     @Column(nullable = false)
-    private String pageUrl;
-
-    @Column(nullable = false)
     private String pageContent;
 
     @Column(nullable = false)
@@ -53,6 +50,9 @@ public class Page extends BaseModel {
 
     @Column(nullable = false)
     private boolean deleted = false;
+
+    @Column(nullable = false)
+    private boolean isSystem = false;
 
     // SEO
     @Column(nullable = true)

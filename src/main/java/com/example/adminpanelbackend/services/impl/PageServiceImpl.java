@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -45,13 +44,8 @@ public class PageServiceImpl implements IPageService {
 
     @Override
     public ResponseEntity<Boolean> createPage(PageDtoUI dto) {
-        String pageUrl = dto.getPageUrl().trim().toLowerCase(Locale.ROOT).replaceAll("\\s+", "-");
-        if (pageRepository.existsByPageUrlAndDeletedFalse(pageUrl)) {
-            return ResponseEntity.badRequest().body(false);
-        }
-
         Page parentPage = null;
-        if (dto.getParentPageId() != null) {
+        if (dto.getParentPageId() != null && dto.getParentPageId() != 0) {
             Optional<Page> parent = pageRepository.findByIdAndDeletedFalse(dto.getParentPageId());
             if (parent.isEmpty()) {
                 return ResponseEntity.badRequest().body(false);
@@ -62,12 +56,12 @@ public class PageServiceImpl implements IPageService {
         Page page = new Page();
         page.setPageName(dto.getPageName());
         page.setPageOrder(dto.getPageOrder());
-        page.setPageUrl(pageUrl);
         page.setPageContent(dto.getPageContent());
         page.setMetaTitle(dto.getMetaTitle());
         page.setMetaDescription(dto.getMetaDescription());
         page.setRoot(dto.getRoot());
         page.setActive(dto.getActive());
+        page.setSystem(dto.getSystem() != null ? dto.getSystem() : false);
         Date now = new Date();
         page.setCreatedAt(now);
         page.setUpdatedDate(now);
@@ -88,13 +82,9 @@ public class PageServiceImpl implements IPageService {
         }
 
         Page page = existing.get();
-        String pageUrl = dto.getPageUrl().trim().toLowerCase(Locale.ROOT).replaceAll("\\s+", "-");
-        if (!pageUrl.equals(page.getPageUrl()) && pageRepository.existsByPageUrlAndDeletedFalseAndIdNot(pageUrl, id)) {
-            return ResponseEntity.badRequest().body(false);
-        }
 
         Page parentPage = null;
-        if (dto.getParentPageId() != null) {
+        if (dto.getParentPageId() != null && dto.getParentPageId() != 0) {
             Optional<Page> parent = pageRepository.findByIdAndDeletedFalse(dto.getParentPageId());
             if (parent.isEmpty()) {
                 return ResponseEntity.badRequest().body(false);
@@ -104,12 +94,12 @@ public class PageServiceImpl implements IPageService {
 
         page.setPageName(dto.getPageName());
         page.setPageOrder(dto.getPageOrder());
-        page.setPageUrl(pageUrl);
         page.setPageContent(dto.getPageContent());
         page.setMetaTitle(dto.getMetaTitle());
         page.setMetaDescription(dto.getMetaDescription());
         page.setRoot(dto.getRoot());
         page.setActive(dto.getActive());
+        page.setSystem(dto.getSystem() != null ? dto.getSystem() : page.isSystem());
         page.setUpdatedDate(new Date());
         page.setSeoTitle(dto.getSeoTitle());
         page.setSeoDescription(dto.getSeoDescription());
@@ -125,6 +115,9 @@ public class PageServiceImpl implements IPageService {
         if (page.isEmpty()) {
             return ResponseEntity.badRequest().body(false);
         }
+        if (page.get().isSystem()) {
+            return ResponseEntity.badRequest().body(false);
+        }
         page.get().setDeleted(true);
         pageRepository.save(page.get());
         return ResponseEntity.ok(true);
@@ -132,7 +125,11 @@ public class PageServiceImpl implements IPageService {
 
     @Override
     public ResponseEntity<Boolean> hardDeletePage(Long id) {
-        if (!pageRepository.existsById(id)) {
+        Optional<Page> page = pageRepository.findById(id);
+        if (page.isEmpty()) {
+            return ResponseEntity.badRequest().body(false);
+        }
+        if (page.get().isSystem()) {
             return ResponseEntity.badRequest().body(false);
         }
         pageRepository.deleteById(id);
@@ -144,6 +141,7 @@ public class PageServiceImpl implements IPageService {
         BeanUtils.copyProperties(page, dto);
         dto.setRoot(page.isRoot());
         dto.setActive(page.isActive());
+        dto.setSystem(page.isSystem());
         if (page.getParentPage() != null) {
             dto.setParentPageId(page.getParentPage().getId());
             dto.setParentPageName(page.getParentPage().getPageName());

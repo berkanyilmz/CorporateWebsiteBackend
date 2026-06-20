@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -30,14 +32,11 @@ class PageServiceImplTest {
         PageDtoUI dto = new PageDtoUI();
         dto.setPageName("Home");
         dto.setPageOrder((byte) 1);
-        dto.setPageUrl("home");
         dto.setPageContent("Home page content");
         dto.setMetaTitle("Home");
         dto.setMetaDescription("Home description");
         dto.setRoot(true);
         dto.setActive(true);
-
-        when(pageRepository.existsByPageUrlAndDeletedFalse("home")).thenReturn(false);
 
         ResponseEntity<Boolean> response = pageService.createPage(dto);
 
@@ -47,22 +46,23 @@ class PageServiceImplTest {
     }
 
     @Test
-    void createPage_shouldReturnBadRequest_whenPageUrlAlreadyExists() {
+    void createPage_shouldReturnBadRequest_whenParentPageNotFound() {
         PageDtoUI dto = new PageDtoUI();
-        dto.setPageName("Home");
-        dto.setPageOrder((byte) 1);
-        dto.setPageUrl("home");
-        dto.setPageContent("Content");
-        dto.setMetaTitle("Home");
-        dto.setMetaDescription("Description");
-        dto.setRoot(true);
+        dto.setPageName("Child");
+        dto.setPageOrder((byte) 2);
+        dto.setPageContent("Child page content");
+        dto.setMetaTitle("Child");
+        dto.setMetaDescription("Child description");
+        dto.setRoot(false);
         dto.setActive(true);
+        dto.setParentPageId(999L);
 
-        when(pageRepository.existsByPageUrlAndDeletedFalse("home")).thenReturn(true);
+        when(pageRepository.findByIdAndDeletedFalse(999L)).thenReturn(Optional.empty());
 
         ResponseEntity<Boolean> response = pageService.createPage(dto);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertFalse(response.getBody());
+        verify(pageRepository, never()).save(any(Page.class));
     }
 }

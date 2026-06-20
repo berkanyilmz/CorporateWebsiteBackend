@@ -17,8 +17,6 @@ public class PageDto {
 
     private byte pageOrder;
 
-    private String pageUrl;
-
     private String pageContent;
 
     private String metaTitle;
@@ -34,6 +32,8 @@ public class PageDto {
     private Date updatedDate;
 
     private boolean deleted;
+
+    private boolean system;
 
     private String seoTitle;
 

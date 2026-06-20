@@ -18,10 +18,6 @@ public class PageDtoUI {
     @NotNull(message = "Page order is required")
     private Byte pageOrder;
 
-    @NotBlank(message = "Page URL cannot be empty")
-    @Size(max = 200, message = "Page URL must be at most 200 characters")
-    private String pageUrl;
-
     @NotBlank(message = "Page content cannot be empty")
     private String pageContent;
 
@@ -36,6 +32,8 @@ public class PageDtoUI {
 
     @NotNull(message = "Active status is required")
     private Boolean active;
+
+    private Boolean system;
 
     @Size(max = 200, message = "SEO title must be at most 200 characters")
     private String seoTitle;
