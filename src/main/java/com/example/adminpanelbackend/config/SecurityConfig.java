@@ -47,7 +47,8 @@ public class SecurityConfig {
             "/categories/all", "/categories/get/**",
             "/products/all", "/products/get/**", "/products/*/features", "/products/*/images",
             "/posts/all", "/posts/get/**",
-            "/features/all", "/features/get/**"
+            "/features/all", "/features/get/**",
+            "/uploads/**"
     };
 
     @Autowired
