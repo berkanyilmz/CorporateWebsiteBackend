@@ -33,9 +33,6 @@ public class Post extends BaseModel {
     private Date publishedAt;
 
     @Column(nullable = false)
-    private Date createdAt;
-
-    @Column(nullable = false)
     private boolean deleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

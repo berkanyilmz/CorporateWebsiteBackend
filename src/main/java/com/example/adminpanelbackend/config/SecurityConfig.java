@@ -46,6 +46,8 @@ public class SecurityConfig {
             "/pages", "/pages/all", "/pages/get/**",
             "/categories/all", "/categories/get/**",
             "/products/all", "/products/get/**", "/products/*/features", "/products/*/images",
+            "/images/all", "/images/get/**",
+            "/sliders/active", "/sliders/get/**",
             "/posts/all", "/posts/get/**",
             "/features/all", "/features/get/**",
             "/uploads/**"

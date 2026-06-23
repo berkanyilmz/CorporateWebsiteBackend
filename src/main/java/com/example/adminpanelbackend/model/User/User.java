@@ -47,9 +47,6 @@ public class User extends BaseModel implements UserDetails {
     @Column
     private boolean deleted;
 
-    @Column
-    private Date createdDate;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = true)
     private Roles roleID;

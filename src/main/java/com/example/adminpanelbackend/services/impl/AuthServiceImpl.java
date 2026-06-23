@@ -16,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 
 @Service
 public class AuthServiceImpl implements IAuthService {
@@ -46,13 +44,12 @@ public class AuthServiceImpl implements IAuthService {
         }
 
         User user = new User();
-        LocalDateTime localDateTime = LocalDateTime.now();
 
         user.setUserFirstName(userDtoUI.getUserFirstName());
         user.setUserLastName(userDtoUI.getUserLastName());
         user.setUserEmail(userDtoUI.getUserEmail());
         user.setPasswordHash(passwordEncoder.encode(userDtoUI.getPassword()));
-        user.setCreatedDate(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
+        user.setCreatedAt(LocalDateTime.now());
         user.setDeleted(false);
         user.setRoleID(role);
 

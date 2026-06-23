@@ -2,8 +2,10 @@ package com.example.adminpanelbackend.services.impl;
 
 import com.example.adminpanelbackend.dto.Product.ProductImageDto;
 import com.example.adminpanelbackend.dto.Product.ProductImageDtoUI;
-import com.example.adminpanelbackend.model.Product.ProductImage;
+import com.example.adminpanelbackend.model.Image.Image;
+import com.example.adminpanelbackend.model.Image.ProductImage;
 import com.example.adminpanelbackend.model.Product.Products;
+import com.example.adminpanelbackend.repository.IImageRepository;
 import com.example.adminpanelbackend.repository.IProductImageRepository;
 import com.example.adminpanelbackend.repository.IProductRepository;
 import com.example.adminpanelbackend.services.FileStorageService;
@@ -25,6 +27,9 @@ public class ProductImageServiceImpl implements IProductImageService {
 
     @Autowired
     private IProductRepository productRepository;
+
+    @Autowired
+    private IImageRepository imageRepository;
 
     @Autowired
     private FileStorageService fileStorageService;
@@ -57,7 +62,7 @@ public class ProductImageServiceImpl implements IProductImageService {
             return ResponseEntity.badRequest().body(false);
         }
 
-        String imagePath = resolveImagePath(productId, dto, file, null);
+        String imagePath = resolveImagePath(productId, dto, file);
         if (imagePath == null || imagePath.isBlank()) {
             return ResponseEntity.badRequest().body(false);
         }
@@ -66,12 +71,16 @@ public class ProductImageServiceImpl implements IProductImageService {
             resetMainImage(productId);
         }
 
-        ProductImage image = new ProductImage();
-        image.setProduct(product.get());
+        Image image = new Image();
         image.setImagePath(imagePath);
-        image.setSortOrder(dto.getSortOrder());
-        image.setMain(dto.isMain());
-        productImageRepository.save(image);
+        imageRepository.save(image);
+
+        ProductImage productImage = new ProductImage();
+        productImage.setProduct(product.get());
+        productImage.setImage(image);
+        productImage.setSortOrder(dto.getSortOrder());
+        productImage.setMain(dto.isMain());
+        productImageRepository.save(productImage);
         return ResponseEntity.ok(true);
     }
 
@@ -82,19 +91,23 @@ public class ProductImageServiceImpl implements IProductImageService {
             return ResponseEntity.badRequest().body(false);
         }
 
-        ProductImage image = existing.get();
-        String newPath = resolveImagePath(productId, dto, file, image.getImagePath());
+        ProductImage productImage = existing.get();
+        Image image = productImage.getImage();
+
+        String newPath = resolveImagePath(productId, dto, file);
         if (newPath != null && !newPath.equals(image.getImagePath())) {
+            fileStorageService.delete(image.getImagePath());
             image.setImagePath(newPath);
+            imageRepository.save(image);
         }
 
-        if (dto.isMain() && !image.isMain()) {
+        if (dto.isMain() && !productImage.isMain()) {
             resetMainImage(productId);
         }
 
-        image.setSortOrder(dto.getSortOrder());
-        image.setMain(dto.isMain());
-        productImageRepository.save(image);
+        productImage.setSortOrder(dto.getSortOrder());
+        productImage.setMain(dto.isMain());
+        productImageRepository.save(productImage);
         return ResponseEntity.ok(true);
     }
 
@@ -104,23 +117,22 @@ public class ProductImageServiceImpl implements IProductImageService {
         if (existing.isEmpty()) {
             return ResponseEntity.badRequest().body(false);
         }
-        ProductImage image = existing.get();
+        ProductImage productImage = existing.get();
+        Image image = productImage.getImage();
         fileStorageService.delete(image.getImagePath());
-        productImageRepository.delete(image);
+        productImageRepository.delete(productImage);
+        imageRepository.delete(image);
         return ResponseEntity.ok(true);
     }
 
-    private String resolveImagePath(Long productId, ProductImageDtoUI dto, MultipartFile file, String currentPath) {
+    private String resolveImagePath(Long productId, ProductImageDtoUI dto, MultipartFile file) {
         if (file != null && !file.isEmpty()) {
-            if (currentPath != null && !currentPath.isBlank()) {
-                fileStorageService.delete(currentPath);
-            }
             return fileStorageService.store(file, String.valueOf(productId));
         }
         if (dto.getImagePath() != null && !dto.getImagePath().isBlank()) {
             return dto.getImagePath();
         }
-        return currentPath;
+        return null;
     }
 
     private void resetMainImage(Long productId) {
@@ -135,7 +147,7 @@ public class ProductImageServiceImpl implements IProductImageService {
         ProductImageDto dto = new ProductImageDto();
         dto.setId(image.getId());
         dto.setProductId(image.getProduct().getId());
-        dto.setImagePath(image.getImagePath());
+        dto.setImagePath(image.getImage().getImagePath());
         dto.setSortOrder(image.getSortOrder());
         dto.setMain(image.isMain());
         return dto;

@@ -2,10 +2,10 @@ package com.example.adminpanelbackend.model.Product;
 
 import com.example.adminpanelbackend.model.BaseModel;
 import com.example.adminpanelbackend.model.Category.Category;
+import com.example.adminpanelbackend.model.Image.ProductImage;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,9 +31,6 @@ public class Products extends BaseModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Category category;
-
-    @Column(nullable = false)
-    private Date createdAt;
 
     @Column(nullable = false)
     private boolean deleted = false;

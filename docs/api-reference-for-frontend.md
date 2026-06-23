@@ -525,6 +525,84 @@ main: boolean           (örn: true)
 
 ---
 
+## 12. Images (`/images`)
+
+| Endpoint | Method | Yetki | Request | Response |
+|----------|--------|-------|---------|----------|
+| `/images/all` | GET | ADMIN, EDITOR, VIEWER | - | `ImageDto[]` |
+| `/images/get/{id}` | GET | ADMIN, EDITOR, VIEWER | - | `ImageDto` |
+| `/images/add` | POST | ADMIN, EDITOR | `multipart/form-data` | `boolean` |
+| `/images/update/{id}` | PUT | ADMIN, EDITOR | `multipart/form-data` | `boolean` |
+| `/images/delete/{id}` | DELETE | ADMIN | - | `boolean` (hard delete) |
+
+### ImageDto
+
+```json
+{
+  "id": 1,
+  "imageName": "Banner",
+  "imagePath": "uploads/products/images/uuid.jpg",
+  "altText": "Ana sayfa banner görseli"
+}
+```
+
+### Image Form Data (add/update)
+
+```
+Content-Type: multipart/form-data
+
+file: <File>          (opsiyonel)
+imageName: string      (opsiyonel)
+imagePath: string      (opsiyonel, sadece file yoksa kullanılır)
+altText: string        (opsiyonel)
+```
+
+> `file` gönderilirse `uploads/products/images/` altına kaydedilir ve `imagePath` olarak atanır. `file` gönderilmezse `imagePath` alanı kullanılır. Silme işleminde hem DB kaydı hem de fiziksel dosya silinir.
+
+---
+
+## 13. Sliders (`/sliders`)
+
+| Endpoint | Method | Yetki | Request | Response |
+|----------|--------|-------|---------|----------|
+| `/sliders/all` | GET | ADMIN, EDITOR | - | `SliderDto[]` |
+| `/sliders/active` | GET | ADMIN, EDITOR, VIEWER | - | `SliderDto[]` |
+| `/sliders/get/{id}` | GET | ADMIN, EDITOR, VIEWER | - | `SliderDto` |
+| `/sliders/add` | POST | ADMIN, EDITOR | `SliderDtoUI` | `boolean` |
+| `/sliders/update/{id}` | PUT | ADMIN, EDITOR | `SliderDtoUI` | `boolean` |
+| `/sliders/delete/{id}` | DELETE | ADMIN | - | `boolean` (hard delete) |
+
+### SliderDto
+
+```json
+{
+  "id": 1,
+  "imageId": 1,
+  "imagePath": "uploads/products/images/uuid.jpg",
+  "productId": 1,
+  "productName": "iPhone 15",
+  "title": "Yeni Sezon Ürünleri",
+  "sortOrder": 0,
+  "active": true
+}
+```
+
+### SliderDtoUI
+
+```json
+{
+  "imageId": 1,
+  "productId": 1,
+  "title": "Yeni Sezon Ürünleri",
+  "sortOrder": 0,
+  "active": true
+}
+```
+
+> `imageId` önceki adımda `/images/add` ile oluşturulmuş bir Image kaydının ID'si olmalıdır. `/sliders/active` endpoint'i sadece `active=true` olan slider'ları `sortOrder` sırasına göre döner.
+
+---
+
 ## TypeScript Interface'leri
 
 ```typescript
@@ -721,6 +799,39 @@ export interface CityDtoUI {
   cityName: string;
 }
 
+export interface ImageDto {
+  id: number;
+  imageName?: string;
+  imagePath: string;
+  altText?: string;
+}
+
+export interface ImageDtoUI {
+  file?: File;
+  imageName?: string;
+  imagePath?: string;
+  altText?: string;
+}
+
+export interface SliderDto {
+  id: number;
+  imageId: number;
+  imagePath: string;
+  productId: number;
+  productName: string;
+  title: string;
+  sortOrder: number;
+  active: boolean;
+}
+
+export interface SliderDtoUI {
+  imageId: number;
+  productId: number;
+  title: string;
+  sortOrder: number;
+  active: boolean;
+}
+
 export interface AuthResponse {
   accessToken: string;
 }
@@ -742,6 +853,6 @@ export interface RegisterResponseDto {
 
 1. **Slug/URL üretimi**: `Product`, `Category`, `Post` oluştururken `slug`/`postUrl` alanları opsiyoneldir. Boş/null gönderilirse başlıktan otomatik URL üretilir. Dolu gönderilirse olduğu gibi kullanılır.
 2. **Soft delete**: `DELETE /{resource}/{id}` kaydı `deleted=true` yapar. `DELETE /{resource}/{id}/hard` kalıcı siler.
-3. **Multipart upload**: `ProductImage` ekleme/güncelleme istekleri `multipart/form-data` olmalıdır. `file` alanı opsiyoneldir; gönderilmezse `imagePath` kullanılır.
+3. **Multipart upload**: `ProductImage` ve `Image` ekleme/güncelleme istekleri `multipart/form-data` olmalıdır. `file` alanı opsiyoneldir; gönderilmezse `imagePath` kullanılır.
 4. **Rol bazlı yetkilendirme**: Backend `@PreAuthorize` ile korunmaktadır. Frontend'de de rol bazlı navigasyon/aksiyon gizleme yapılmalıdır.
 5. **Zorunlu alanlar**: `Boolean` wrapper tipleri (`active`, `root` vb.) backend tarafında `@NotNull` ile zorunludur; frontend'den eksik gönderilmemelidir.

@@ -71,9 +71,7 @@ public class PostServiceImpl implements IPostService {
         post.setPostUrl(postUrl);
         post.setActive(dto.getActive());
         post.setViewCount(0);
-        Date now = new Date();
-        post.setPublishedAt(now);
-        post.setCreatedAt(now);
+        post.setPublishedAt(new Date());
         post.setDeleted(false);
         post.setCategory(category.get());
         postRepository.save(post);

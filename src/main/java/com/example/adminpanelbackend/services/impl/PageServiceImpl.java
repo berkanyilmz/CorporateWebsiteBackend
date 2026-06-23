@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -62,9 +62,9 @@ public class PageServiceImpl implements IPageService {
         page.setRoot(dto.getRoot());
         page.setActive(dto.getActive());
         page.setSystem(dto.getSystem() != null ? dto.getSystem() : false);
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         page.setCreatedAt(now);
-        page.setUpdatedDate(now);
+        page.setUpdatedAt(now);
         page.setDeleted(false);
         page.setSeoTitle(dto.getSeoTitle());
         page.setSeoDescription(dto.getSeoDescription());
@@ -100,7 +100,7 @@ public class PageServiceImpl implements IPageService {
         page.setRoot(dto.getRoot());
         page.setActive(dto.getActive());
         page.setSystem(dto.getSystem() != null ? dto.getSystem() : page.isSystem());
-        page.setUpdatedDate(new Date());
+        page.setUpdatedAt(LocalDateTime.now());
         page.setSeoTitle(dto.getSeoTitle());
         page.setSeoDescription(dto.getSeoDescription());
         page.setSeoKeywords(dto.getSeoKeywords());

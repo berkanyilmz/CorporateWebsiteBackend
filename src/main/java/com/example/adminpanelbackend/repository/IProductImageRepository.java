@@ -1,6 +1,6 @@
 package com.example.adminpanelbackend.repository;
 
-import com.example.adminpanelbackend.model.Product.ProductImage;
+import com.example.adminpanelbackend.model.Image.ProductImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

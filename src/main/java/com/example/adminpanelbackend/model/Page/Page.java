@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -39,14 +37,6 @@ public class Page extends BaseModel {
 
     @Column(nullable = false)
     private boolean isActive;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Column(nullable = false)
-    private Date createdAt;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Column(nullable = false)
-    private Date updatedDate;
 
     @Column(nullable = false)
     private boolean deleted = false;

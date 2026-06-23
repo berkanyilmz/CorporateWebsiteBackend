@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -72,7 +71,7 @@ public class ProductServiceImpl implements IProductService {
         product.setProductDescription(dto.getProductDescription());
         product.setActive(dto.getActive());
         product.setCategory(category.get());
-        product.setCreatedAt(new Date());
+//        product.setCreatedAt(new LocalDateTime.now());
         product.setDeleted(false);
         productRepository.save(product);
         return ResponseEntity.ok(true);
@@ -153,7 +152,7 @@ public class ProductServiceImpl implements IProductService {
                     com.example.adminpanelbackend.dto.Product.ProductImageDto imageDto = new com.example.adminpanelbackend.dto.Product.ProductImageDto();
                     imageDto.setId(image.getId());
                     imageDto.setProductId(product.getId());
-                    imageDto.setImagePath(image.getImagePath());
+                    imageDto.setImagePath(image.getImage().getImagePath());
                     imageDto.setSortOrder(image.getSortOrder());
                     imageDto.setMain(image.isMain());
                     return imageDto;

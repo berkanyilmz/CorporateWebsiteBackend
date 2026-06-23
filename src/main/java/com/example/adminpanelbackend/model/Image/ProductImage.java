@@ -1,6 +1,7 @@
-package com.example.adminpanelbackend.model.Product;
+package com.example.adminpanelbackend.model.Image;
 
 import com.example.adminpanelbackend.model.BaseModel;
+import com.example.adminpanelbackend.model.Product.Products;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +20,9 @@ public class ProductImage extends BaseModel {
     @JoinColumn(name = "product_id", nullable = false)
     private Products product;
 
-    @Column
-    private String imagePath;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id", nullable = false)
+    private Image image;
 
     @Column(nullable = false)
     private int sortOrder = 0;
