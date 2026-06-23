@@ -20,7 +20,6 @@ public class RestSliderControllerImpl implements IRestSliderController {
     private ISliderService sliderService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('Admin', 'Editor')")
     @Override
     public ResponseEntity<List<SliderDto>> getAllSliders() {
         return sliderService.getAllSliders();

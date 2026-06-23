@@ -31,7 +31,7 @@ public class Slider extends BaseModel {
     @Column(nullable = false)
     private int sortOrder = 0;
 
-    @Column(nullable = false)
-    private boolean isActive = true;
+    @Column(name = "is_active", nullable = false)
+    private boolean active = true;
 
 }
