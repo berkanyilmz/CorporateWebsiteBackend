@@ -11,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "Pages")
+@AttributeOverrides({
+        @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_date", nullable = false))
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

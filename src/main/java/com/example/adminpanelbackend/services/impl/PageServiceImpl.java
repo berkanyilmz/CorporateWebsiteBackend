@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -142,6 +144,12 @@ public class PageServiceImpl implements IPageService {
         dto.setRoot(page.isRoot());
         dto.setActive(page.isActive());
         dto.setSystem(page.isSystem());
+        if (page.getCreatedAt() != null) {
+            dto.setCreatedAt(Date.from(page.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()));
+        }
+        if (page.getUpdatedAt() != null) {
+            dto.setUpdatedDate(Date.from(page.getUpdatedAt().atZone(ZoneId.systemDefault()).toInstant()));
+        }
         if (page.getParentPage() != null) {
             dto.setParentPageId(page.getParentPage().getId());
             dto.setParentPageName(page.getParentPage().getPageName());
