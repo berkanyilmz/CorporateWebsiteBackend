@@ -42,7 +42,7 @@ public class Settings extends BaseModel {
     @Column
     private String address;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String googleMap;
 
     @Column

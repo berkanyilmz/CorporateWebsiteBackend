@@ -26,9 +26,6 @@ public class SettingsServiceImpl implements ISettingsService {
     @Override
     public ResponseEntity<List<SettingsDto>> getAllSettings() {
         List<Settings> settingsList = settingsRepository.findAll();
-        if (settingsList.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         List<SettingsDto> dtos = settingsList.stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
@@ -46,11 +43,16 @@ public class SettingsServiceImpl implements ISettingsService {
 
     @Override
     public ResponseEntity<Boolean> createSettings(SettingsDtoUI dto) {
-        Settings settings = new Settings();
+        List<Settings> existingList = settingsRepository.findAll();
+        Settings settings;
+        if (existingList.isEmpty()) {
+            settings = new Settings();
+            settings.setCreatedAt(LocalDateTime.now());
+        } else {
+            settings = existingList.get(0);
+        }
         BeanUtils.copyProperties(dto, settings);
-        LocalDateTime now = LocalDateTime.now();
-        settings.setCreatedAt(now);
-        settings.setUpdatedAt(now);
+        settings.setUpdatedAt(LocalDateTime.now());
         settingsRepository.save(settings);
         return ResponseEntity.ok(true);
     }
@@ -59,7 +61,7 @@ public class SettingsServiceImpl implements ISettingsService {
     public ResponseEntity<Boolean> updateSettings(Long id, SettingsDtoUI dto) {
         Optional<Settings> existing = settingsRepository.findById(id);
         if (existing.isEmpty()) {
-            return ResponseEntity.badRequest().body(false);
+            return ResponseEntity.notFound().build();
         }
 
         Settings settings = existing.get();

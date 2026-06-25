@@ -79,3 +79,58 @@ altText: string        (opsiyonel)
 ```
 
 > `imageId` önceki adımda `/images/add` ile oluşturulmuş bir Image kaydının ID'si olmalıdır. `/sliders/active` endpoint'i sadece `active=true` olan slider'ları `sortOrder` sırasına göre döner.
+
+---
+
+## Settings (`/settings`)
+
+| Endpoint | Method | Yetki | Request | Response |
+|----------|--------|-------|---------|----------|
+| `/settings/all` | GET | Public | - | `SettingsDto[]` |
+| `/settings/get/{id}` | GET | Public | - | `SettingsDto` |
+| `/settings/add` | POST | Admin, Editor | `SettingsDtoUI` | `boolean` |
+| `/settings/update/{id}` | PUT | Admin, Editor | `SettingsDtoUI` | `boolean` |
+| `/settings/delete/{id}` | DELETE | Admin | - | `boolean` |
+
+### SettingsDto
+
+```json
+{
+  "id": 1,
+  "instagramAddress": "https://instagram.com/example",
+  "linkedinAddress": "https://linkedin.com/company/example",
+  "facebookAddress": "https://facebook.com/example",
+  "twitterAddress": "https://twitter.com/example",
+  "youtubeAddress": "https://youtube.com/example",
+  "tiktokAddress": "https://tiktok.com/@example",
+  "whatsappAddress": "https://wa.me/905551234567",
+  "telegramAddress": "https://t.me/example",
+  "address": "Örnek Mah. Örnek Cad. No:1 İstanbul",
+  "googleMap": "https://maps.google.com/?q=...",
+  "email": "info@example.com",
+  "phone": "+90 555 123 45 67",
+  "createdAt": "2026-06-25T13:00:00.000+00:00",
+  "updatedDate": "2026-06-25T13:00:00.000+00:00"
+}
+```
+
+### SettingsDtoUI
+
+```json
+{
+  "instagramAddress": "https://instagram.com/example",
+  "linkedinAddress": "https://linkedin.com/company/example",
+  "facebookAddress": "https://facebook.com/example",
+  "twitterAddress": "https://twitter.com/example",
+  "youtubeAddress": "https://youtube.com/example",
+  "tiktokAddress": "https://tiktok.com/@example",
+  "whatsappAddress": "https://wa.me/905551234567",
+  "telegramAddress": "https://t.me/example",
+  "address": "Örnek Mah. Örnek Cad. No:1 İstanbul",
+  "googleMap": "https://maps.google.com/?q=...",
+  "email": "info@example.com",
+  "phone": "+90 555 123 45 67"
+}
+```
+
+> Settings genellikle tek bir kayıt olarak yönetilir. Tüm alanlar opsiyoneldir; gönderilmeyen alanlar `null` olarak kaydedilir. `email` alanı gönderilirse geçerli bir e-posta formatında olmalıdır.
