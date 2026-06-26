@@ -541,6 +541,7 @@ main: boolean           (örn: true)
 {
   "id": 1,
   "imageName": "Banner",
+  "imagePath": "uploads/products/images/uuid.jpg",
   "altText": "Ana sayfa banner görseli"
 }
 ```
@@ -628,6 +629,10 @@ altText: string        (opsiyonel)
   "googleMap": "https://maps.google.com/?q=...",
   "email": "info@example.com",
   "phone": "+90 555 123 45 67",
+  "headerLogo": "1",
+  "footerLogo": "2",
+  "favicon": "3",
+  "companyName": "Örnek Şirket",
   "createdAt": "2026-06-25T13:00:00.000+00:00",
   "updatedDate": "2026-06-25T13:00:00.000+00:00"
 }
@@ -648,7 +653,11 @@ altText: string        (opsiyonel)
   "address": "Örnek Mah. Örnek Cad. No:1 İstanbul",
   "googleMap": "https://maps.google.com/?q=...",
   "email": "info@example.com",
-  "phone": "+90 555 123 45 67"
+  "phone": "+90 555 123 45 67",
+  "headerLogo": "1",
+  "footerLogo": "2",
+  "favicon": "3",
+  "companyName": "Örnek Şirket"
 }
 ```
 
@@ -855,6 +864,7 @@ export interface CityDtoUI {
 export interface ImageDto {
   id: number;
   imageName?: string;
+  imagePath: string;
   altText?: string;
 }
 
@@ -897,6 +907,10 @@ export interface SettingsDto {
   googleMap?: string;
   email?: string;
   phone?: string;
+  headerLogo?: string;
+  footerLogo?: string;
+  favicon?: string;
+  companyName?: string;
   createdAt: string;
   updatedDate: string;
 }
@@ -914,6 +928,10 @@ export interface SettingsDtoUI {
   googleMap?: string;
   email?: string;
   phone?: string;
+  headerLogo?: string;
+  footerLogo?: string;
+  favicon?: string;
+  companyName?: string;
 }
 
 export interface AuthResponse {

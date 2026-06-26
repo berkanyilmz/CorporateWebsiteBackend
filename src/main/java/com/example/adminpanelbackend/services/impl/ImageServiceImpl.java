@@ -109,6 +109,7 @@ public class ImageServiceImpl implements IImageService {
         ImageDto dto = new ImageDto();
         dto.setId(image.getId());
         dto.setImageName(image.getImageName());
+        dto.setImagePath(image.getImagePath());
         dto.setAltText(image.getAltText());
         return dto;
     }

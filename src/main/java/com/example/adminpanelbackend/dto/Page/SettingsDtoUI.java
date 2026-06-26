@@ -34,4 +34,12 @@ public class SettingsDtoUI {
     private String email;
 
     private String phone;
+
+    private String headerLogo;
+
+    private String footerLogo;
+
+    private String favicon;
+
+    private String companyName;
 }

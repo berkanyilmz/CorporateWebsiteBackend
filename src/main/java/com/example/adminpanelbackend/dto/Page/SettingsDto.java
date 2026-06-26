@@ -37,6 +37,14 @@ public class SettingsDto {
 
     private String phone;
 
+    private String headerLogo;
+
+    private String footerLogo;
+
+    private String favicon;
+
+    private String companyName;
+
     private Date createdAt;
 
     private Date updatedDate;

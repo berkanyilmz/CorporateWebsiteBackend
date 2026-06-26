@@ -51,4 +51,16 @@ public class Settings extends BaseModel {
     @Column
     private String phone;
 
+    @Column(name = "header_logo_id")
+    private String headerLogo;
+
+    @Column(name = "footer_logo_id")
+    private String footerLogo;
+
+    @Column(name = "favicon_logo_id")
+    private String favicon;
+
+    @Column
+    private String companyName;
+
 }
