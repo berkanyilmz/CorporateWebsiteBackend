@@ -47,7 +47,7 @@ public class ImageServiceImpl implements IImageService {
 
     @Override
     public ResponseEntity<Boolean> createImage(ImageDtoUI dto, MultipartFile file) {
-        String imagePath = resolveImagePath(dto, file, null);
+        String imagePath = resolveImagePath(file, null);
         if (imagePath == null || imagePath.isBlank()) {
             return ResponseEntity.badRequest().body(false);
         }
@@ -68,7 +68,7 @@ public class ImageServiceImpl implements IImageService {
         }
 
         Image image = existing.get();
-        String newPath = resolveImagePath(dto, file, image.getImagePath());
+        String newPath = resolveImagePath(file, image.getImagePath());
         if (newPath != null && !newPath.equals(image.getImagePath())) {
             image.setImagePath(newPath);
         }
@@ -95,15 +95,12 @@ public class ImageServiceImpl implements IImageService {
         return ResponseEntity.ok(true);
     }
 
-    private String resolveImagePath(ImageDtoUI dto, MultipartFile file, String currentPath) {
+    private String resolveImagePath(MultipartFile file, String currentPath) {
         if (file != null && !file.isEmpty()) {
             if (currentPath != null && !currentPath.isBlank()) {
                 fileStorageService.delete(currentPath);
             }
             return fileStorageService.store(file, "images");
-        }
-        if (dto.getImagePath() != null && !dto.getImagePath().isBlank()) {
-            return dto.getImagePath();
         }
         return currentPath;
     }
@@ -112,7 +109,6 @@ public class ImageServiceImpl implements IImageService {
         ImageDto dto = new ImageDto();
         dto.setId(image.getId());
         dto.setImageName(image.getImageName());
-        dto.setImagePath(image.getImagePath());
         dto.setAltText(image.getAltText());
         return dto;
     }

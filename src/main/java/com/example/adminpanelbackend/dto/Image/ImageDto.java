@@ -13,7 +13,5 @@ public class ImageDto {
 
     private String imageName;
 
-    private String imagePath;
-
     private String altText;
 }

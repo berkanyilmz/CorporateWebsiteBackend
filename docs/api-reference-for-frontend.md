@@ -541,7 +541,6 @@ main: boolean           (örn: true)
 {
   "id": 1,
   "imageName": "Banner",
-  "imagePath": "uploads/products/images/uuid.jpg",
   "altText": "Ana sayfa banner görseli"
 }
 ```
@@ -553,11 +552,10 @@ Content-Type: multipart/form-data
 
 file: <File>          (opsiyonel)
 imageName: string      (opsiyonel)
-imagePath: string      (opsiyonel, sadece file yoksa kullanılır)
 altText: string        (opsiyonel)
 ```
 
-> `file` gönderilirse `uploads/products/images/` altına kaydedilir ve `imagePath` olarak atanır. `file` gönderilmezse `imagePath` alanı kullanılır. Silme işleminde hem DB kaydı hem de fiziksel dosya silinir.
+> `file` gönderilirse `uploads/products/images/` altına kaydedilir. Silme işleminde hem DB kaydı hem de fiziksel dosya silinir.
 
 ---
 
@@ -857,14 +855,12 @@ export interface CityDtoUI {
 export interface ImageDto {
   id: number;
   imageName?: string;
-  imagePath: string;
   altText?: string;
 }
 
 export interface ImageDtoUI {
   file?: File;
   imageName?: string;
-  imagePath?: string;
   altText?: string;
 }
 
@@ -941,6 +937,6 @@ export interface RegisterResponseDto {
 
 1. **Slug/URL üretimi**: `Product`, `Category`, `Post` oluştururken `slug`/`postUrl` alanları opsiyoneldir. Boş/null gönderilirse başlıktan otomatik URL üretilir. Dolu gönderilirse olduğu gibi kullanılır.
 2. **Soft delete**: `DELETE /{resource}/{id}` kaydı `deleted=true` yapar. `DELETE /{resource}/{id}/hard` kalıcı siler.
-3. **Multipart upload**: `ProductImage` ve `Image` ekleme/güncelleme istekleri `multipart/form-data` olmalıdır. `file` alanı opsiyoneldir; gönderilmezse `imagePath` kullanılır.
+3. **Multipart upload**: `ProductImage` ve `Image` ekleme/güncelleme istekleri `multipart/form-data` olmalıdır.
 4. **Rol bazlı yetkilendirme**: Backend `@PreAuthorize` ile korunmaktadır. Frontend'de de rol bazlı navigasyon/aksiyon gizleme yapılmalıdır.
 5. **Zorunlu alanlar**: `Boolean` wrapper tipleri (`active`, `root` vb.) backend tarafında `@NotNull` ile zorunludur; frontend'den eksik gönderilmemelidir.

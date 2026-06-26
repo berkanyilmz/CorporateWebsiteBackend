@@ -20,7 +20,6 @@ Bu doküman, projedeki Image ve Slider endpoint'lerinin özetini içerir. Detayl
 {
   "id": 1,
   "imageName": "Banner",
-  "imagePath": "uploads/products/images/uuid.jpg",
   "altText": "Ana sayfa banner görseli"
 }
 ```
@@ -32,11 +31,10 @@ Content-Type: multipart/form-data
 
 file: <File>          (opsiyonel)
 imageName: string      (opsiyonel)
-imagePath: string      (opsiyonel, sadece file yoksa kullanılır)
 altText: string        (opsiyonel)
 ```
 
-> `file` gönderilirse `uploads/products/images/` altına kaydedilir. `file` gönderilmezse `imagePath` kullanılır. Silme işleminde hem DB kaydı hem de fiziksel dosya silinir.
+> `file` gönderilirse `uploads/products/images/` altına kaydedilir. Silme işleminde hem DB kaydı hem de fiziksel dosya silinir.
 
 ---
 

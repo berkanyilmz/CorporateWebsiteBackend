@@ -11,7 +11,5 @@ public class ImageDtoUI {
 
     private String imageName;
 
-    private String imagePath;
-
     private String altText;
 }
